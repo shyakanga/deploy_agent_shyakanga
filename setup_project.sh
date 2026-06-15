@@ -86,3 +86,29 @@ cat << 'EOF' > "${reports_fd}/reports.log"
 [2026-02-06 18:10:01.469424] ALERT SENT TO charlie@example.com: URGENT: Charlie Davis, your attendance is 26.7%. You will fail this class.
 
 EOF
+
+
+attendance_checker_fl="./${target_fd}/attendance_checker.py"
+assets_fl="./${helpers_fd}/assets.csv"
+config_fl="./${helpers_fd}/config.json"
+reports_fl="./${reports_fd}/reports.log"
+
+read -p "Do you want to update the attendance thresholds [Default: Warning (75%) and Failure (50%)] ? (y/n): " usr_decision
+
+if [ "$usr_decision" = "y" ]
+then
+    read -p "Do you want yo update the Warning or Failure? (w/f): " update_choice
+    if [ "$update_choice" = "w" ]
+    then
+	read -p "Enter new Warning threshold (1-100): " new_w_threshold
+	sed -i "s/\"warning\": [0-9]*,/\"warning\": ${new_w_threshold},/" "$config_fl"
+    elif [ "$update_choice" = "f" ]
+    then
+	read -p "Enter new Failure threshold (1-100): " new_f_threshold
+        sed -i "s/\"failure\": [0-9]*/\"failure\": ${new_f_threshold}/" "$config_fl"
+    else
+	echo "wrong choice"
+    fi
+else
+    echo ""
+fi
