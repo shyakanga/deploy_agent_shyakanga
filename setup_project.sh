@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 read -p "Enter a string, it will be used as an extension 'attendance_tracker_{input}': " usr_input
 mkdir -p "attendance_tracker_${usr_input}"
 mkdir -p "./attendance_tracker_${usr_input}/Helpers"
@@ -8,6 +9,22 @@ mkdir -p "./attendance_tracker_${usr_input}/reports"
 target_fd="./attendance_tracker_${usr_input}"
 helpers_fd="./attendance_tracker_${usr_input}/Helpers"
 reports_fd="./attendance_tracker_${usr_input}/reports"
+
+
+cancel_bundle () {
+
+    echo ""
+    echo "Initializing clean interuption"
+    archive_name="attendance_tracker_${usr_input}_archive.tar.gz"
+    tar -czf $archive_name "attendance_tracker_${usr_input}"
+    echo "Created archive folder ${archive_name}"
+    rm -r $target_fd
+    echo "Deleted incomplete directory"
+    exit 1
+    
+}
+
+trap cancel_bundle SIGINT
 
 
 cat << 'EOF' > "${target_fd}/attendance_checker.py"
