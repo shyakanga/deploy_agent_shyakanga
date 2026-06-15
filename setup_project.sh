@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 
 
+if python3 --version | grep "Python";then
+    echo "python3 is installed on the local system"
+elif [ python3 --version | grep "Python was not found" ];then
+     echo "Warnig! python3 is missing"
+else
+    echo "Warnig! python3 is missing"
+fi
+
+
 read -p "Enter a string, it will be used as an extension 'attendance_tracker_{input}': " usr_input
 mkdir -p "attendance_tracker_${usr_input}"
 mkdir -p "./attendance_tracker_${usr_input}/Helpers"
