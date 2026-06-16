@@ -1,6 +1,6 @@
 # Project: Automated Project Bootstrapping & Process Management
 
-A shell script (`setup_project.sh`) that automates environment setup for the **Student Attendance Tracker**.
+At the root of the project is a shell script (`setup_project.sh`) that bootstraps environment setup for the **Student Attendance Tracker**.
 
 ---
 
