@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 
-if python3 --version | grep "Python";then
-    echo "python3 is installed on the local system"
-elif [ python3 --version | grep "Python was not found" ];then
-     echo "Warnig! python3 is missing"
+if python3 --version 2>&1 | grep "Python was not found" ;then
+    echo "Warning python3 is missing"
+elif python3 --version 2>&1 | grep "^Python" ;then
+     echo "python3 is available on your environment"
 else
     echo "Warnig! python3 is missing"
 fi
