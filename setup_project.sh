@@ -121,19 +121,45 @@ reports_fl="./${reports_fd}/reports.log"
 
 read -p "Do you want to update the attendance thresholds [Default: Warning (75%) and Failure (50%)] ? (y/n): " usr_decision
 
+check_user_input() {
+
+    input_value="$1"
+
+    if [[ "$input_value" =~ ^[0-9]+$ ]] && (( input_value >= 1 && input_value <= 100 ));then
+	return 0
+    else
+	return 1
+    fi
+    
+}
+
 if [ "$usr_decision" = "y" ]
 then
     read -p "Do you want yo update the Warning or Failure? (w/f): " update_choice
     if [ "$update_choice" = "w" ]
     then
 	read -p "Enter new Warning threshold (1-100): " new_w_threshold
-	sed -i "s/\"warning\": [0-9]*,/\"warning\": ${new_w_threshold},/" "$config_fl"
+
+	if check_user_input $new_w_threshold;then
+	    echo "Updating warning threshold to ${new_w_threshold}"
+	    sed -i "s/\"warning\": [0-9]*,/\"warning\": ${new_w_threshold},/" "$config_fl"
+	else
+	    echo "Please enter a whole number [1-100]"
+	fi
+	
     elif [ "$update_choice" = "f" ]
     then
 	read -p "Enter new Failure threshold (1-100): " new_f_threshold
-        sed -i "s/\"failure\": [0-9]*/\"failure\": ${new_f_threshold}/" "$config_fl"
+
+	if check_user_input $new_f_threshold;then
+            echo "Updating warning threshold to ${new_f_threshold}"
+	    sed -i "s/\"failure\": [0-9]*/\"failure\": ${new_f_threshold}/" "$config_fl"
+        else
+            echo "Please enter a whole number [1-100]"
+        fi
+	
     else
-	echo "wrong choice"
+	echo "Choose between Warning (w) or Failure (f) threshold)"
     fi
 else
     echo ""
